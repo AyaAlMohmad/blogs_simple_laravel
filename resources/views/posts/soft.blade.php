@@ -16,26 +16,23 @@
 
         <h1 class="list-title_header ">Posts</h1><br>
 
-        <a href="{{ route('posts.create') }}" class="btn-create">Create Post</a>
-        <a href="{{ route('users.index') }}" class="btn-edit">Page User</a><br><br><br>
-        <a href="{{ route('soft') }}" class="btn-edit">page Delete Soft</a>
+        <a href="{{ route('posts.index') }}" class="btn">Page Post</a>
+        <a href="{{ route('users.index') }}" class="btn">Page User</a>
 
 
-
-
-    </center>
+</center>
     <ul class="list">
-        @foreach ($posts as $post)
+        @foreach($posts as $post)
             <li class="list-item">
                 <h2 class="list-title">{{ $post->title }}</h2>
                 <p class="list-description">{{ $post->description }}</p>
                 <p class="list-type">{{ $post->type }}</p>
                 <p class="list-author">By {{ $post->user->name }}</p>
                 <div class="list-actions">
-                    <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">Edit</a>
-                    <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
+                    {{-- <a href="{{ route('restor', $post->id) }}" class="btn-edit">Edit</a> --}}
+                    <form method="get" action="{{ route('final', $post->id) }}">
                         @csrf
-                        @method('DELETE')
+
 
                         <button type="submit-button" class="btn-delete">Delete</button>
 
@@ -44,6 +41,14 @@
                             <button type="submit" class="btn-confirm-delete">Yes, delete</button>
                             <button type="button" class="btn-cancel-delete">Cancel</button>
                         </div>
+                    </form>
+                    <form method="GET" action="{{ route('restor', $post->id) }}">
+                        @csrf
+
+
+                        <button type="submit-button" class="btn-edit" >Restor</button>
+
+
                     </form>
                 </div>
             </li>

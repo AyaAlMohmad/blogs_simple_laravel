@@ -20,4 +20,10 @@ Route::get('/', function () {
 });
 
 Route::resource('posts', PostController::class);
+Route::get('soft', [PostController::class,'showsoft'])->name('soft');
+Route::get('restor/{id}', [PostController::class,'restor'])->name('restor');
+
+Route::get('findelet/{id}', [PostController::class,'finldelet'])->name('final');
+
+Route::resource('posts', PostController::class);
 Route::resource('users', UserController::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,13 +30,9 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $validator = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required',
-            'type'=> 'required'
-        ]);
+
          $post = new Post();
         $post->title = $request->title;
         $post->description = $request->description;
@@ -67,7 +64,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
         $post = Post::findorfail($id);
          $post->title = $request->title;
@@ -85,5 +82,17 @@ class PostController extends Controller
     {
           $post = Post::where('id', $id)->delete();
           return redirect()->route('posts.index');
+    }
+    public function showsoft(){
+        $posts=Post::onlyTrashed()->get();
+        return view('posts.soft',compact('posts'));
+    }
+    public function restor($id){
+        $post=Post::withTrashed()->where('id',$id)->restore();
+        return redirect()->back();
+    }
+    public function finldelet($id){
+        $post=Post::withTrashed()->where('id',$id)->forceDelete();
+        return redirect()->back();
     }
 }
